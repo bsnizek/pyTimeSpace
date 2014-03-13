@@ -8,20 +8,24 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy import MetaData, Table, Column, Integer, String
 
+from sqlalchemy.dialects.postgresql import TIMESTAMP
+
+from geoalchemy2.types import *
+
 
 class Test:
     
     def __init__(self):
         
-        
         meta = MetaData()
         
-        dots_table = Table('users', meta,
-                            Column('id', Integer, primary_key=True),
-                            Column('name', String(50))
+        dots_table = Table('dots', meta,
+                            Column('gid', Integer, primary_key=True),
+                            Column('geography', Geography(geometry_type='POINT', srid=4326)),
+                            Column('time', TIMESTAMP)
                             )
         
-        engine = create_engine('postgresql://abm:abm@localhost:5432/abm', echo=True)
+        engine = create_engine('postgresql://abm:abm@localhost:5432/dots', echo=True)
         
         print engine
         
